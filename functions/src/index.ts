@@ -1,6 +1,8 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 
+admin.initializeApp(functions.config().firebase);
+
 const db = require('./helpers/db-helper');
 
 const express = require('express');
@@ -8,8 +10,6 @@ const cors = require('cors');
 
 const app = express();
 const router = express.Router();
-
-admin.initializeApp(functions.config().firebase);
 
 // Automatically allow cross-origin requests
 app.use(cors({ origin: true }));

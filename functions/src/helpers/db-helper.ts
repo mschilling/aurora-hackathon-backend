@@ -7,6 +7,7 @@ module.exports = class DbHelper {
 
   static async GetSettings() {
     const doc = await db.collection('app').doc('settings').get();
+    console.log(doc);
     if(!doc.exists) {
       return;
     }
