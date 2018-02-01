@@ -3,7 +3,7 @@ import * as admin from 'firebase-admin';
 
 admin.initializeApp(functions.config().firebase);
 
-const db = require('./helpers/db-helper');
+import { DbHelper as db} from './helpers/db-helper';
 
 const express = require('express');
 const cors = require('cors');

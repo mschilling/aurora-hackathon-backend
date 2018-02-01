@@ -3,9 +3,9 @@
 const admin = require('firebase-admin');
 const db = admin.firestore();
 
-module.exports = class DbHelper {
+export class DbHelper {
 
-  static async GetSettings() {
+  static async GetSettings(): Promise<any> {
     const doc = await db.collection('app').doc('settings').get();
     console.log(doc);
     if(!doc.exists) {
