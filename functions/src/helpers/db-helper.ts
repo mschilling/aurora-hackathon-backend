@@ -5,7 +5,7 @@ const db = admin.firestore();
 
 export class DbHelper {
 
-  static async GetSettings(): Promise<any> {
+  static async getSettings(): Promise<any> {
     const doc = await db.collection('app').doc('settings').get();
     console.log(doc);
     if(!doc.exists) {
