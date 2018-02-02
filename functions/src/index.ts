@@ -1,5 +1,6 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
+import * as moment from 'moment';
 
 admin.initializeApp(functions.config().firebase);
 
@@ -15,6 +16,8 @@ const router = express.Router();
 app.use(cors({ origin: true }));
 
 router.get('/ping', async (req, res) => res.json({ result: 'pong' }) );
+
+router.get('/time', async (req, res) => res.json({ time: moment().toISOString() }) );
 
 // Retrieve App settings from DB
 router.get('/settings', async (req, res) => res.json( await db.getSettings() ) );
