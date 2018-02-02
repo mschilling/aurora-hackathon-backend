@@ -17,7 +17,7 @@ app.use(cors({ origin: true }));
 router.get('/ping', async (req, res) => res.json({ result: 'pong' }) );
 
 // Retrieve App settings from DB
-router.get('/settings', async (req, res) => res.json( await db.getSettings() ) );
+router.get('/settings', async (req, res) => res.json( await db.GetSettings() ) );
 
 app.use('/v1', router);
 
