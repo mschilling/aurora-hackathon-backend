@@ -32,19 +32,27 @@ export class DbHelper {
 
   static async getPointsOfInterestInRange(req): Promise<any> {
     const documentsList = [];
-    console.log(req.params.lat);
-    console.log(req.params.long);
     const currentLocation = {
       "latitude": req.params.lat,
       "longitude": req.params.long
     }
+    const range = req.params.range;
     console.log("current location:" + currentLocation);
     await db.collection('pointsOfInterest').get().then(snapshot => {
       snapshot.forEach(doc => {
+
         console.log(doc.id, '=>', doc.data());
-        documentsList.push(doc.data());
-        console.log("geopoint:" + doc.data().geoLocation._latitude);
-        console.log(geoHelper.getDistanceSimple(currentLocation, doc.data().geoLocation));
+
+        const monumentLocation = {
+          "latitude": doc.data().geoLocation._latitude,
+          "longitude": doc.data().geoLocation._longitude
+        }
+        if(geoHelper.getDistanceSimple(currentLocation, monumentLocation) < range){
+          documentsList.push(doc.data());
+          console.log("added monument to list")
+        } 
+
+        console.log(geoHelper.getDistanceSimple(currentLocation, monumentLocation) + "m from current location to monument location");
       });
     })
       .catch(err => {

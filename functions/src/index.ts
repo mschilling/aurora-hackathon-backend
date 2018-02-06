@@ -26,7 +26,7 @@ router.get('/settings', async (req, res) => res.json( await db.getSettings() ) )
 router.get('/pointsOfInterest', async (req, res) => res.json( await db.getPointsOfInterest() ) );
 
 // Retrieve Points of interest within range
-router.get('/pointsOfInterest/lat/:lat/long/:long', async (req, res) => res.json( await db.getPointsOfInterestInRange(req) ) );
+router.get('/pointsOfInterest/lat/:lat/long/:long/range/:range', async (req, res) => res.json( await db.getPointsOfInterestInRange(req) ) );
 
 app.use('/v1', router);
 
