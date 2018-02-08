@@ -44,11 +44,13 @@ const YES_INTENT = 'discriminate-yes';
 const GIVEUP_INTENT = 'give-up';
 const LEARN_THING_INTENT = 'learn-thing';
 const LEARN_DISCRIM_INTENT = 'learn-discrimination';
+const FIND_MONUMENT_INTENT = 'find-monument';
 
 // Contexts
 const WELCOME_CONTEXT = 'welcome';
 const QUESTION_CONTEXT = 'question';
 const GUESS_CONTEXT = 'guess';
+const MONUMENT_CONTEXT = 'monument';
 const LEARN_THING_CONTEXT = 'learn-thing';
 const LEARN_DISCRIM_CONTEXT = 'learn-discrimination';
 const ANSWER_CONTEXT = 'answer';
@@ -72,6 +74,7 @@ exports.assistantcodelab = functions.https.onRequest((request, response) => {
     actionMap.set(PLAY_INTENT, play);
     actionMap.set(NO_INTENT, discriminate);
     actionMap.set(YES_INTENT, discriminate);
+    actionMap.set(FIND_MONUMENT_INTENT, findMonument)
     actionMap.set(GIVEUP_INTENT, giveUp);
     actionMap.set(LEARN_THING_INTENT, learnThing);
     actionMap.set(LEARN_DISCRIM_INTENT, learnDiscrimination);
@@ -109,20 +112,28 @@ exports.assistantcodelab = functions.https.onRequest((request, response) => {
         }
  
         console.log(`prior question: ${priorQuestion}`);
- 
+        
+        //database structured as binairy tree, start
+        //                                         |
+        //                                        /|\
+        //                                       N Q Y      No Question Yes
+        //                                       |   |
+        //                                       Q   A      No resulting in an other question, yes resulting in an awnser (guess)
+
         graph.child(priorQuestion).once('value', snap => {
             const next = snap.val()[yes_no];
             graph.child(next).once('value', snap => {
                 const node = snap.val();
                 if (node.q) {
-                    const speech = node.q;
- 
+                    //ask question if availble
+                    const speech = node.q; // q for question
                     const parameters = {};
                     parameters[ID_PARAM] = snap.key;
                     assistant.setContext(QUESTION_CONTEXT, 5, parameters);
                     assistant.ask(speech);
                 } else {
-                    const guess = node.a;
+                    //take a guess if no question availble
+                    const guess = node.a;//a for awnser
                     const speech = `Is it a ${guess}?`;
  
                     const parameters = {};
@@ -134,7 +145,16 @@ exports.assistantcodelab = functions.https.onRequest((request, response) => {
             });
         });
     }
- 
+    
+    function findMonument(assistant) {
+        //const priorQuestion = assistant.getContextArgument(MONUMENT_CONTEXT, ID_PARAM).value;
+        const speech = 'I\'m trying to find some monuments for you!';
+
+        console.log('executing find monument!');
+
+        assistant.ask(speech);
+    }
+
     function giveUp(assistant) {
         const priorQuestion = assistant.getContextArgument(QUESTION_CONTEXT, ID_PARAM).value;
         const guess = assistant.getContextArgument(GUESS_CONTEXT, ID_PARAM).value;
