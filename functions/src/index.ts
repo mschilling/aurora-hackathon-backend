@@ -5,6 +5,7 @@ import * as moment from 'moment';
 admin.initializeApp(functions.config().firebase);
 
 import { DbHelper as db} from './helpers/db-helper';
+import { DatabaseTriggers as triggers } from './helpers/database-triggers';
 
 const express = require('express');
 const cors = require('cors');
@@ -32,3 +33,7 @@ app.use('/v1', router);
 
 // Expose Express API as a single Cloud Function:
 exports.api = functions.https.onRequest(app);
+
+// Sync online status of users between Firestore and Realtime Database
+exports.syncUserOnlineStatus = functions.database.ref('/users/{userId}/status')
+    .onWrite(triggers.UserOnlineStatusSync);
