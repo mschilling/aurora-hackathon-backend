@@ -10,6 +10,8 @@ const secretId = process.env.FOURSQUARE_SECRET_ID;
 
 const foursquare = require('node-foursquare-venues')(clientId, secretId, null, null);
 
+const GeoFire = require('geofire');
+
 const query = {};
 // query.ll = "52.50,6.09";
 // query.radius = 200;
@@ -24,6 +26,12 @@ foursquare.venues.search(query, updatePois);
 function updatePois(error, data) {
 
   const dbRef = admin.firestore().collection('pointsOfInterest');
+
+  const firebaseRef = admin.database().ref('locations');
+  const geoFire = new GeoFire(firebaseRef);
+
+
+
   const actions = [];
   for (let item of data.response.venues) {
     // console.dir(item, {
@@ -35,9 +43,10 @@ function updatePois(error, data) {
       id: item.id,
       name: item.name,
       description: `${item.name}, ${item.location.address}`,
-      geo: new admin.firestore.GeoPoint(item.location.lat, item.location.lng)
+      geoLocation: new admin.firestore.GeoPoint(item.location.lat, item.location.lng)
     }
-    actions.push(dbRef.doc(poi.id).set(poi, { merge: true }));
+    // actions.push(dbRef.doc(poi.id).set(poi, { merge: false }));
+    // actions.push(geoFire.set(item.id, [item.location.lat, item.location.lng]));
   }
 
   Promise.all(actions)
