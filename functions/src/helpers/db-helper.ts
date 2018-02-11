@@ -1,4 +1,4 @@
-'use strict';
+import { IPointOfInterest } from "../models/point-of-interest";
 
 const admin = require('firebase-admin');
 const geoHelper = require('geolib');
@@ -16,8 +16,8 @@ export class DbHelper {
     return doc.data();
   }
 
-  static async getPointsOfInterest(): Promise<any> {
-    const documentsList = [];
+  static async getPointsOfInterest(): Promise<IPointOfInterest[]> {
+    const documentsList: IPointOfInterest[] = [];
     await db.collection('pointsOfInterest').get().then(snapshot => {
       snapshot.forEach(doc => {
         console.log(doc.id, '=>', doc.data());
@@ -30,8 +30,8 @@ export class DbHelper {
     return documentsList;
   }
 
-  static async getPointsOfInterestInRange(req): Promise<any> {
-    const documentsList = [];
+  static async getPointsOfInterestInRange(req): Promise<IPointOfInterest[]> {
+    const documentsList: IPointOfInterest[] = [];
     const currentLocation = {
       "latitude": req.params.lat,
       "longitude": req.params.long
@@ -50,7 +50,7 @@ export class DbHelper {
         if(geoHelper.getDistanceSimple(currentLocation, monumentLocation) < range){
           documentsList.push(doc.data());
           console.log("added monument to list")
-        } 
+        }
 
         console.log(geoHelper.getDistanceSimple(currentLocation, monumentLocation) + "m from current location to monument location");
       });
