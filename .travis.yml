@@ -16,6 +16,6 @@ cache:
   - node_modules
 notifications:
   email: false
-  webhooks: https://coders.move4mobile.io/webhooks/travis
+  webhooks: https://travis.webhooks.m4m.io
   slack:
     secure: NSIRAZNdcFf+Bi0beQk1P/O+DsePreN9Aa6QlAUYiPIJTM7jteKGZG5/f7RP6Wu/7OpIrdS8KGy/HH6zFcDobhLyaz29a3s4ceD/JBwTBO9uw/aLTAdLe3jBOotU0fCBktvplT9Vly8iC+T8zmvFB9XlrB04mGTkWlerwh2Zfjy6WXvgRuCxZ8+dpEIuz0qfBN6H51AAL5r9IRtPRPALEsqBuquhTwmYUSZJHnClBG0zyKJ2MFFR3W0km9Td5LJjRUumx/p2vZJ2mscL29ByX3rAB1Bhr87UJh+hLLTithyFWXuuGL8ijoSOZNofVPTKko6177rfEKBtHzh0uV65hGm/nWP8A3KL+rFttggLooCfhDNbKPWjr4WskIF8cVZvwjKSGg38NFZ+38LFTTFk5vBRK7R/460EhJvzVPHmwrGAYasM1acvljTzGZMJvyzmyiVFs4629M0YvR7XMPN+DmPQn7r2Q/j196JjCWHXoqBNfPnKC6ZqUlSa323xSjPGl7GCzQK+CX/IRq2l2CodGuHrNQfuO2phX3seuHHkNS3ZNdruAh1JISQEW9DAPhVd/9wWoLGwMdmJFnPjolOSZl1VKcPUkT4AKa3DS7Vt7gplQqSZ/rxgP+OSaMl5QgQVAZiEQEjbk7ES/ACSpK6+bxEodJWxfoMLLAtNEhbvbIc=
